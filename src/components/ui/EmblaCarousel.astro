@@ -1,0 +1,131 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Slide {
+  title: string;
+  location: string;
+  description: string;
+  features: string[];
+}
+
+interface Props {
+  slides: Slide[];
+}
+
+const { slides } = Astro.props;
+---
+
+<div class="embla relative max-w-5xl mx-auto overflow-hidden rounded-2xl bg-pet-teal-50/60 border border-pet-teal-100 p-6 sm:p-10 shadow-sm" aria-roledescription="carrossel" aria-label="Instalações e Salas de Despedida">
+  <div class="embla__container flex">
+    {slides.map((slide, index) => (
+      <div 
+        class="embla__slide flex-[0_0_100%] min-w-0 px-2 sm:px-4"
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`Instalação ${index + 1} de ${slides.length}: ${slide.title}`}
+      >
+        <div class="bg-white rounded-xl p-6 sm:p-8 border border-pet-teal-100/80 shadow-sm flex flex-col md:flex-row gap-6 md:gap-8 items-center">
+          <!-- Espaço Visual / Imagem Ilustrativa Dignificada -->
+          <div class="w-full md:w-1/2 aspect-[4/3] rounded-lg bg-gradient-to-br from-pet-teal-600 via-pet-teal-700 to-zinc-900 flex flex-col justify-between p-6 text-white relative overflow-hidden">
+            <div class="absolute -right-6 -bottom-6 opacity-10">
+              <Icon name="tabler:paw" class="w-48 h-48" aria-hidden="true" />
+            </div>
+
+            <div class="flex items-center justify-between z-10">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/15 backdrop-blur-sm rounded-full text-xs font-sans uppercase tracking-wider font-medium text-pet-teal-100">
+                <Icon name="tabler:map-pin" class="w-3.5 h-3.5" aria-hidden="true" />
+                {slide.location}
+              </span>
+              <span class="text-xs font-mono text-pet-teal-200">
+                {String(index + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
+              </span>
+            </div>
+
+            <div class="z-10 mt-auto">
+              <p class="font-serif text-xl sm:text-2xl font-semibold leading-snug">
+                {slide.title}
+              </p>
+              <p class="text-xs text-pet-teal-100/90 font-sans mt-1">
+                Ambiente sereno, reservado e climatizado
+              </p>
+            </div>
+          </div>
+
+          <!-- Informação e Detalhes da Instalação -->
+          <div class="w-full md:w-1/2 space-y-4">
+            <span class="text-xs uppercase tracking-widest font-semibold text-pet-teal-600 font-sans">
+              Espaço Físico & Conforto
+            </span>
+            <h3 class="font-serif text-2xl sm:text-3xl text-zinc-900 font-semibold leading-tight">
+              {slide.title}
+            </h3>
+            <p class="text-zinc-600 font-sans text-sm leading-relaxed">
+              {slide.description}
+            </p>
+
+            <ul class="space-y-2 pt-2 border-t border-zinc-100">
+              {slide.features.map((feature) => (
+                <li class="flex items-center gap-2 text-xs sm:text-sm text-zinc-700 font-sans">
+                  <Icon name="tabler:check" class="w-4 h-4 text-pet-teal-500 shrink-0" aria-hidden="true" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Botões de Navegação Acessíveis -->
+  <div class="flex items-center justify-between mt-6 pt-4 border-t border-pet-teal-100/60">
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        class="embla__prev p-2.5 rounded-full bg-white text-zinc-700 hover:text-pet-teal-600 hover:bg-pet-teal-50 border border-pet-teal-200 transition-all focus:outline-none focus:ring-2 focus:ring-pet-teal-500 shadow-sm"
+        aria-label="Ver slide anterior"
+      >
+        <Icon name="tabler:chevron-left" class="w-5 h-5" aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        class="embla__next p-2.5 rounded-full bg-white text-zinc-700 hover:text-pet-teal-600 hover:bg-pet-teal-50 border border-pet-teal-200 transition-all focus:outline-none focus:ring-2 focus:ring-pet-teal-500 shadow-sm"
+        aria-label="Ver próximo slide"
+      >
+        <Icon name="tabler:chevron-right" class="w-5 h-5" aria-hidden="true" />
+      </button>
+    </div>
+
+    <span class="text-xs font-sans text-zinc-500">
+      Arraste ou use as setas para explorar as instalações
+    </span>
+  </div>
+</div>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  function initCarousel(): void {
+    const emblaNode = document.querySelector<HTMLElement>('.embla');
+    if (!emblaNode) return;
+
+    const prevBtn = emblaNode.querySelector<HTMLButtonElement>('.embla__prev');
+    const nextBtn = emblaNode.querySelector<HTMLButtonElement>('.embla__next');
+
+    const emblaApi = EmblaCarousel(emblaNode, {
+      loop: true,
+      align: 'center',
+      skipSnaps: false,
+    });
+
+    const onPrev = () => emblaApi.scrollPrev();
+    const onNext = () => emblaApi.scrollNext();
+
+    prevBtn?.addEventListener('click', onPrev);
+    nextBtn?.addEventListener('click', onNext);
+  }
+
+  // Support both direct load and Astro View Transitions
+  initCarousel();
+  document.addEventListener('astro:page-load', initCarousel);
+</script>

@@ -1,0 +1,376 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import TypewriterText from '@/components/ui/TypewriterText.astro';
+import Button from '@/components/ui/Button.astro';
+import { Icon } from 'astro-icon/components';
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+
+const memorials = await getCollection('memorials');
+const recentMemorials = memorials.slice(0, 3);
+
+const baseUrl = import.meta.env.BASE_URL;
+
+const partners = [
+  { name: 'DGAV - Direção-Geral de Alimentação e Veterinária', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-dgav.jpg` },
+  { name: 'ACP Pets', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-acp.jpg` },
+  { name: 'Hospital Veterinário da Tapada', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-hospital_veterinario_da_tapada.jpg` },
+  { name: 'Centro Veterinário do Alto', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-centro_veterinario_do_alto.jpg` },
+  { name: 'Cruz Amarela', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-cruz_amarela.jpg` },
+  { name: 'BVet', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-bvet.jpg` },
+  { name: 'CVMI', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-cvmi.jpg` },
+  { name: 'VetTotal', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-vettotal.jpg` },
+  { name: 'AnimaDomus', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-animadomus.jpg` },
+  { name: 'Cão de Loiça', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-cao_de_loica.jpg` },
+  { name: 'Life Veterinária', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-life.jpg` },
+  { name: 'Bola Veterinária', logo: `${baseUrl}assets/imagem/logo_parceiros/logo-bola.jpg` },
+];
+---
+
+<BaseLayout
+  title="Pet Memorial | Centro de Cremação & Assistência Funerária Animal"
+  description="Uma despedida digna, serena e respeitosa para o seu animal de companhia. Cremações individuais e coletivas em Sintra e Pombal. Apoio urgente e recolhas 24h em Portugal."
+>
+  <!-- 1. Hero Section -->
+  <section class="relative bg-zinc-950 text-white overflow-hidden py-28 sm:py-36 lg:py-44 min-h-[520px] sm:min-h-[600px] flex items-center justify-center">
+    <!-- Imagem de Fundo Hero com Priority Hints -->
+    <img 
+      src={`${baseUrl}assets/imagem/fundo/hero.jpg`} 
+      alt="Carinho, afeto e despedida serena de um animal de companhia" 
+      width="2024"
+      height="915"
+      class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none" 
+      loading="eager" 
+      fetchpriority="high"
+      decoding="async"
+    />
+
+    <!-- Overlays Solenes Centrados para Máxima Legibilidade e Dignidade -->
+    <div class="absolute inset-0 bg-zinc-950/65 pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-transparent to-zinc-950/85 pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-pet-teal-950/20 mix-blend-multiply pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div class="max-w-4xl mx-auto text-center flex flex-col items-center justify-center">
+        <!-- Título Centrado Numa Linha Sem Quebras com Animação Typewriter -->
+        <h1 class="font-serif text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white whitespace-nowrap flex items-center justify-center min-h-[3rem] sm:min-h-[4.5rem]">
+          <TypewriterText 
+            texts={[
+              "O amor que nos une é eterno.",
+              "A amizade mais pura nunca se esquece.",
+              "Guardamos no coração quem tanto nos amou."
+            ]}
+            enhance={true}
+            typeSpeed={55}
+            eraseSpeed={30}
+            pauseAfter={2400}
+            loop={true}
+            mainClassName="whitespace-nowrap"
+          />
+        </h1>
+
+        <!-- Dois CTAs Centrados com espaçamento generoso e o mesmo ícone tabler:phone de Ligar Pombal -->
+        <div class="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+          <Button
+            variant="on-dark"
+            size="lg"
+            href="#"
+            onclick="event.preventDefault();"
+            aria-label="Ligar para o centro de Sintra: 914 347 109"
+            class="group shadow-xl hover:shadow-2xl cursor-pointer"
+          >
+            <Icon name="tabler:phone" slot="icon-left" class="w-5 h-5 text-pet-teal-600 group-hover:text-white transition-colors" />
+            Ligar Sintra
+          </Button>
+
+          <Button
+            variant="on-dark"
+            size="lg"
+            href="#"
+            onclick="event.preventDefault();"
+            aria-label="Ligar para o centro de Pombal: 910 754 666"
+            class="group shadow-xl hover:shadow-2xl cursor-pointer"
+          >
+            <Icon name="tabler:phone" slot="icon-left" class="w-5 h-5 text-pet-teal-600 group-hover:text-white transition-colors" />
+            Ligar Pombal
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Guia do Tutor: O Que Fazer no Momento da Perda -->
+  <section class="py-16 sm:py-24 bg-white font-sans" aria-labelledby="guia-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
+        <h2 id="guia-heading" class="font-serif text-3xl sm:text-4xl font-semibold text-zinc-900">
+          O Que Fazer no Momento da Perda
+        </h2>
+        <p class="text-zinc-600 text-sm sm:text-base leading-relaxed font-light">
+          Sabemos o quão desorientador pode ser este momento de dor profunda. Criámos um procedimento simples para que nunca se sinta sozinho.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Passo 01: Preenchimento a partir do número com hover mais longo (duration-[1800ms]) e ícone limpo -->
+        <div class="group relative bg-[#F8FAFA] border border-zinc-200/80 group-hover:border-pet-teal-500 rounded-[26px] p-8 sm:p-9 shadow-sm transition-colors duration-700 overflow-hidden flex flex-col justify-between">
+          <!-- Efeito de preenchimento suave que parte do canto do número -->
+          <div class="absolute -top-12 -right-12 w-28 h-28 bg-pet-teal-500 rounded-full scale-0 group-hover:scale-[18] transition-transform duration-[1800ms] ease-out origin-center pointer-events-none z-0" aria-hidden="true"></div>
+
+          <!-- Canto Arredondado Superior Direito com Número -->
+          <div class="absolute top-0 right-0 w-16 h-16 sm:w-20 sm:h-20 bg-pet-teal-500 rounded-bl-[42px] sm:rounded-bl-[48px] flex items-start justify-end pt-3 pr-4 sm:pt-4 sm:pr-5 text-white font-sans font-bold text-lg sm:text-xl shadow-xs z-10" aria-hidden="true">
+            01
+          </div>
+
+          <div class="relative z-10">
+            <!-- Ícone Superior Limpo cor a cor (tabler:phone) -->
+            <div class="mb-7">
+              <Icon name="tabler:phone" class="w-9 h-9 sm:w-10 sm:h-10 text-pet-teal-500 group-hover:text-white transition-colors duration-700" aria-hidden="true" />
+            </div>
+
+            <h3 class="font-serif text-2xl font-semibold text-zinc-900 group-hover:text-white transition-colors duration-700 mb-3 leading-snug">
+              Contacte-nos com Serenidade
+            </h3>
+            <p class="text-zinc-600 group-hover:text-white/95 transition-colors duration-700 text-sm sm:text-base leading-relaxed font-light">
+              Ligue para a nossa linha de assistência 24h (Sintra: <strong class="text-zinc-800 group-hover:text-white transition-colors duration-700 font-semibold">914 347 109</strong> ou Pombal: <strong class="text-zinc-800 group-hover:text-white transition-colors duration-700 font-semibold">910 754 666</strong>). A nossa equipa acolhe a sua família com calma e transparência total.
+            </p>
+          </div>
+
+          <div class="relative z-10 mt-6 pt-2 flex items-center gap-2 text-xs text-pet-teal-700 group-hover:text-white transition-colors duration-700 font-medium">
+            <Icon name="tabler:phone" class="w-4 h-4 shrink-0 text-pet-teal-700 group-hover:text-white transition-colors duration-700" aria-hidden="true" />
+            <span>Atendimento imediato a qualquer hora</span>
+          </div>
+        </div>
+
+        <!-- Passo 02: Preenchimento a partir do número com hover mais longo (duration-[1800ms]) e ícone limpo -->
+        <div class="group relative bg-[#F8FAFA] border border-zinc-200/80 group-hover:border-pet-teal-500 rounded-[26px] p-8 sm:p-9 shadow-sm transition-colors duration-700 overflow-hidden flex flex-col justify-between">
+          <!-- Efeito de preenchimento suave que parte do canto do número -->
+          <div class="absolute -top-12 -right-12 w-28 h-28 bg-pet-teal-500 rounded-full scale-0 group-hover:scale-[18] transition-transform duration-[1800ms] ease-out origin-center pointer-events-none z-0" aria-hidden="true"></div>
+
+          <!-- Canto Arredondado Superior Direito com Número -->
+          <div class="absolute top-0 right-0 w-16 h-16 sm:w-20 sm:h-20 bg-pet-teal-500 rounded-bl-[42px] sm:rounded-bl-[48px] flex items-start justify-end pt-3 pr-4 sm:pt-4 sm:pr-5 text-white font-sans font-bold text-lg sm:text-xl shadow-xs z-10" aria-hidden="true">
+            02
+          </div>
+
+          <div class="relative z-10">
+            <!-- Ícone Superior Limpo cor a cor (tabler:car) -->
+            <div class="mb-7">
+              <Icon name="tabler:car" class="w-9 h-9 sm:w-10 sm:h-10 text-pet-teal-500 group-hover:text-white transition-colors duration-700" aria-hidden="true" />
+            </div>
+
+            <h3 class="font-serif text-2xl font-semibold text-zinc-900 group-hover:text-white transition-colors duration-700 mb-3 leading-snug">
+              Recolha Delicada ou Receção
+            </h3>
+            <p class="text-zinc-600 group-hover:text-white/95 transition-colors duration-700 text-sm sm:text-base leading-relaxed font-light">
+              Poderá transportar o seu amigo diretamente para as nossas instalações ou agendar a recolha ao domicílio / clínica veterinária através da nossa viatura dedicada e climatizada.
+            </p>
+          </div>
+
+          <div class="relative z-10 mt-6 pt-2 flex items-center gap-2 text-xs text-pet-teal-700 group-hover:text-white transition-colors duration-700 font-medium">
+            <Icon name="tabler:shield-check" class="w-4 h-4 shrink-0 text-pet-teal-700 group-hover:text-white transition-colors duration-700" aria-hidden="true" />
+            <span>Transporte com respeito e discrição</span>
+          </div>
+        </div>
+
+        <!-- Passo 03: Preenchimento a partir do número com hover mais longo (duration-[1800ms]) e ícone limpo -->
+        <div class="group relative bg-[#F8FAFA] border border-zinc-200/80 group-hover:border-pet-teal-500 rounded-[26px] p-8 sm:p-9 shadow-sm transition-colors duration-700 overflow-hidden flex flex-col justify-between">
+          <!-- Efeito de preenchimento suave que parte do canto do número -->
+          <div class="absolute -top-12 -right-12 w-28 h-28 bg-pet-teal-500 rounded-full scale-0 group-hover:scale-[18] transition-transform duration-[1800ms] ease-out origin-center pointer-events-none z-0" aria-hidden="true"></div>
+
+          <!-- Canto Arredondado Superior Direito com Número -->
+          <div class="absolute top-0 right-0 w-16 h-16 sm:w-20 sm:h-20 bg-pet-teal-500 rounded-bl-[42px] sm:rounded-bl-[48px] flex items-start justify-end pt-3 pr-4 sm:pt-4 sm:pr-5 text-white font-sans font-bold text-lg sm:text-xl shadow-xs z-10" aria-hidden="true">
+            03
+          </div>
+
+          <div class="relative z-10">
+            <!-- Ícone Superior Limpo cor a cor (tabler:certificate) -->
+            <div class="mb-7">
+              <Icon name="tabler:certificate" class="w-9 h-9 sm:w-10 sm:h-10 text-pet-teal-500 group-hover:text-white transition-colors duration-700" aria-hidden="true" />
+            </div>
+
+            <h3 class="font-serif text-2xl font-semibold text-zinc-900 group-hover:text-white transition-colors duration-700 mb-3 leading-snug">
+              Despedida & Homenagem
+            </h3>
+            <p class="text-zinc-600 group-hover:text-white/95 transition-colors duration-700 text-sm sm:text-base leading-relaxed font-light">
+              Disponibilizamos a sala de velório privada para a última homenagem. Na cremação individual, as cinzas são entregues no próprio dia em urna nobre, juntamente com o certificado oficial.
+            </p>
+          </div>
+
+          <div class="relative z-10 mt-6 pt-2 flex items-center gap-2 text-xs text-pet-teal-700 group-hover:text-white transition-colors duration-700 font-medium">
+            <Icon name="tabler:heart" class="w-4 h-4 shrink-0 text-pet-teal-700 group-hover:text-white transition-colors duration-700" aria-hidden="true" />
+            <span>Entrega em mãos e documentação oficial</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Comparativo de Serviços de Cremação -->
+  <section class="py-16 sm:py-24 bg-white font-sans" aria-labelledby="servicos-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
+        <h2 id="servicos-heading" class="font-serif text-3xl sm:text-4xl font-semibold text-zinc-900">
+          Serviços de Cremação e Assistência
+        </h2>
+        <p class="text-zinc-600 text-sm sm:text-base leading-relaxed font-light">
+          Garantimos total transparência em cada modalidade. Conheça as diferenças entre os processos e escolha a opção que melhor se adequa ao desejo da sua família.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        {sortedServices.filter(s => s.data.type === 'individual' || s.data.type === 'coletiva').map((service) => (
+          <article class="bg-white rounded-2xl border-2 border-zinc-200 hover:border-pet-teal-500 transition-all p-8 sm:p-10 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-4 mb-4">
+                <span class="px-3 py-1 rounded-full bg-pet-teal-50 text-pet-teal-700 text-xs font-semibold uppercase tracking-wider">
+                  {service.data.badge || service.data.type}
+                </span>
+                <Icon name="tabler:paw" class="w-6 h-6 text-pet-teal-400" aria-hidden="true" />
+              </div>
+
+              <h3 class="font-serif text-2xl sm:text-3xl font-semibold text-zinc-900 mb-3">
+                {service.data.title}
+              </h3>
+
+              <p class="text-zinc-600 text-sm leading-relaxed mb-6">
+                {service.data.summary}
+              </p>
+
+              <!-- Sem linha divisória -->
+              <div class="space-y-3 pt-3">
+                <h4 class="text-xs uppercase tracking-wider font-semibold text-zinc-800">
+                  O que está incluído:
+                </h4>
+                <ul class="space-y-2">
+                  {service.data.highlights.map((highlight) => (
+                    <li class="flex items-start gap-2.5 text-xs sm:text-sm text-zinc-700">
+                      <Icon name="tabler:check" class="w-4 h-4 text-pet-teal-500 shrink-0 mt-0.5" aria-hidden="true" />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <!-- Sem linha divisória -->
+            <div class="pt-6 mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <a
+                href="#"
+                onclick="event.preventDefault();"
+                class="w-full sm:w-auto text-center px-6 py-3 bg-pet-teal-600 hover:bg-pet-teal-700 text-white text-xs uppercase tracking-wider font-semibold rounded-lg transition-colors cursor-pointer"
+              >
+                Detalhes do Serviço
+              </a>
+              <a
+                href="#"
+                onclick="event.preventDefault();"
+                class="text-xs text-zinc-600 hover:text-pet-teal-600 font-medium flex items-center gap-1.5 cursor-pointer"
+              >
+                <Icon name="tabler:phone" class="w-4 h-4 text-pet-teal-500" aria-hidden="true" />
+                <span>Contactar 24h</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="text-center mt-12">
+        <a
+          href="#"
+          onclick="event.preventDefault();"
+          class="inline-flex items-center gap-2 text-sm font-semibold text-pet-teal-600 hover:text-pet-teal-800 transition-colors cursor-pointer"
+        >
+          <span>Ver todos os serviços, recolhas e catálogo de urnas</span>
+          <Icon name="tabler:chevron-right" class="w-4 h-4" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Mural Memorial Online (Quarta Secção: Apenas Nome e Mensagem, Sem Tags, Sem Linhas) -->
+  <section class="py-16 sm:py-24 bg-white font-sans" aria-labelledby="memorial-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <h2 id="memorial-heading" class="font-serif text-3xl sm:text-4xl font-semibold text-zinc-900">
+            Mural Memorial Online
+          </h2>
+          <p class="text-zinc-600 text-sm sm:text-base mt-2 max-w-xl font-light">
+            Um tributo eterno aos amigos leais que deixaram uma marca indelével nas nossas vidas.
+          </p>
+        </div>
+        <a
+          href="#"
+          onclick="event.preventDefault();"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-zinc-300 text-zinc-700 hover:text-pet-teal-600 hover:border-pet-teal-500 text-xs font-semibold uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+        >
+          <span>Visitar Memorial Completo</span>
+          <Icon name="tabler:chevron-right" class="w-4 h-4" aria-hidden="true" />
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {recentMemorials.map((item) => {
+          const photoUrl = item.data.photo 
+            ? `${baseUrl}${item.data.photo.replace(/^\//, '')}` 
+            : `${baseUrl}assets/imagem/animais/cao-boris.jpg`;
+          return (
+            <article class="relative rounded-2xl overflow-hidden min-h-[380px] sm:min-h-[420px] flex flex-col justify-end p-6 sm:p-8 text-white group shadow-sm hover:shadow-xl transition-all duration-500 border border-zinc-200/60">
+              <!-- Imagem de Fundo do Animal -->
+              <img
+                src={photoUrl}
+                alt={`Fotografia memorial de ${item.data.name}`}
+                class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                loading="lazy"
+                decoding="async"
+              />
+              <!-- Overlay Gradiente Escuro Solene para Legibilidade Perfeita -->
+              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-zinc-950/30 group-hover:via-zinc-950/60 transition-colors duration-500" aria-hidden="true"></div>
+
+              <!-- Conteúdo do Card: Apenas o Nome e a Mensagem, Sem Tags, Sem Linhas -->
+              <div class="relative z-10 space-y-3">
+                <h3 class="font-serif text-3xl sm:text-4xl font-semibold text-white tracking-wide">
+                  {item.data.name}
+                </h3>
+                <p class="text-zinc-100 font-serif italic text-base sm:text-lg leading-relaxed">
+                  "{item.data.message}"
+                </p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Entidades Oficiais e Parceiros Veterinários (Fundo Branco, Sem Cards, Logos Maiores) -->
+  <section class="py-16 sm:py-24 bg-white font-sans" aria-labelledby="parceiros-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
+        <h2 id="parceiros-heading" class="font-serif text-3xl sm:text-4xl font-semibold text-zinc-900">
+          Entidades & Parceiros Veterinários
+        </h2>
+        <p class="text-zinc-600 text-sm sm:text-base leading-relaxed font-light">
+          Trabalhamos em estreita cooperação com clínicas, hospitais veterinários e autoridades competentes para assegurar total conformidade, respeito e dignidade em todos os processos.
+        </p>
+      </div>
+
+      <!-- Grelha de Logos dos Parceiros (Sem card, tamanho maior, logos normais sem hover) -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 sm:gap-10 md:gap-12 items-center justify-items-center">
+        {partners.map((partner) => (
+          <div class="flex items-center justify-center p-2 w-full">
+            <img
+              src={partner.logo}
+              alt={`Logótipo de ${partner.name}`}
+              class="h-16 sm:h-20 md:h-24 w-auto max-w-[170px] sm:max-w-[200px] object-contain"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

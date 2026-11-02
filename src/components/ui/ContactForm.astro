@@ -1,0 +1,242 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div class="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-10 shadow-sm font-sans" id="contact-form-wrapper">
+  <div class="mb-8">
+    <span class="text-xs font-semibold uppercase tracking-widest text-pet-teal-600 block mb-1">
+      Apoio & Aconselhamento
+    </span>
+    <h2 class="font-serif text-2xl sm:text-3xl font-semibold text-zinc-900">
+      Envie-nos a sua Mensagem
+    </h2>
+    <p class="text-zinc-600 text-sm mt-2 leading-relaxed">
+      Estamos inteiramente ao seu dispor para esclarecer dúvidas, agendar um velório ou coordenar um serviço. Em caso de urgência imediata, utilize preferencialmente as nossas linhas 24h.
+    </p>
+  </div>
+
+  <form id="contact-form" class="space-y-6" novalidate>
+    <!-- Campo Honeypot Oculto (Anti-spam) -->
+    <div class="hidden" aria-hidden="true">
+      <label for="honeypot-field">Não preencha este campo</label>
+      <input type="text" id="honeypot-field" name="honeypot" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <!-- Nome Completo -->
+    <div>
+      <label for="form-name" class="block text-xs font-medium text-zinc-700 uppercase tracking-wider mb-2">
+        O seu Nome <span class="text-rose-500">*</span>
+      </label>
+      <input
+        type="text"
+        id="form-name"
+        name="name"
+        required
+        placeholder="Ex.: Maria Santos"
+        class="w-full px-4 py-3 rounded-lg border border-zinc-300 focus:border-pet-teal-500 focus:ring-2 focus:ring-pet-teal-200 text-sm text-zinc-800 transition-colors"
+      />
+      <p class="text-xs text-rose-600 mt-1.5 hidden" id="error-name"></p>
+    </div>
+
+    <!-- Contacto Telefónico e Email -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="form-phone" class="block text-xs font-medium text-zinc-700 uppercase tracking-wider mb-2">
+          Telefone / Telemóvel <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="tel"
+          id="form-phone"
+          name="phone"
+          required
+          placeholder="Ex.: 912 345 678"
+          class="w-full px-4 py-3 rounded-lg border border-zinc-300 focus:border-pet-teal-500 focus:ring-2 focus:ring-pet-teal-200 text-sm text-zinc-800 transition-colors"
+        />
+        <p class="text-xs text-rose-600 mt-1.5 hidden" id="error-phone"></p>
+      </div>
+
+      <div>
+        <label for="form-email" class="block text-xs font-medium text-zinc-700 uppercase tracking-wider mb-2">
+          Endereço de E-mail
+        </label>
+        <input
+          type="email"
+          id="form-email"
+          name="email"
+          placeholder="Ex.: nome@exemplo.pt"
+          class="w-full px-4 py-3 rounded-lg border border-zinc-300 focus:border-pet-teal-500 focus:ring-2 focus:ring-pet-teal-200 text-sm text-zinc-800 transition-colors"
+        />
+        <p class="text-xs text-rose-600 mt-1.5 hidden" id="error-email"></p>
+      </div>
+    </div>
+
+    <!-- Serviço e Centro -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="form-service" class="block text-xs font-medium text-zinc-700 uppercase tracking-wider mb-2">
+          Serviço Pretendido <span class="text-rose-500">*</span>
+        </label>
+        <div class="relative">
+          <select
+            id="form-service"
+            name="service"
+            required
+            class="w-full appearance-none px-4 py-3 rounded-lg border border-zinc-300 focus:border-pet-teal-500 focus:ring-2 focus:ring-pet-teal-200 text-sm text-zinc-800 bg-white transition-colors pr-10"
+          >
+            <option value="">Selecione o serviço...</option>
+            <option value="cremacao-individual">Cremação Individual (com cinzas)</option>
+            <option value="cremacao-coletiva">Cremação Coletiva</option>
+            <option value="recolha-urgente">Recolha de Emergência / Transporte</option>
+            <option value="duvidas-gerais">Informações Gerais / Urnas</option>
+          </select>
+          <Icon name="tabler:chevron-down" class="w-4 h-4 text-zinc-400 absolute right-3 top-3.5 pointer-events-none" aria-hidden="true" />
+        </div>
+        <p class="text-xs text-rose-600 mt-1.5 hidden" id="error-service"></p>
+      </div>
+
+      <div>
+        <label for="form-location" class="block text-xs font-medium text-zinc-700 uppercase tracking-wider mb-2">
+          Centro Mais Próximo <span class="text-rose-500">*</span>
+        </label>
+        <div class="relative">
+          <select
+            id="form-location"
+            name="location"
+            required
+            class="w-full appearance-none px-4 py-3 rounded-lg border border-zinc-300 focus:border-pet-teal-500 focus:ring-2 focus:ring-pet-teal-200 text-sm text-zinc-800 bg-white transition-colors pr-10"
+          >
+            <option value="">Selecione a localização...</option>
+            <option value="sintra">Centro de Sintra (Grande Lisboa e Sul)</option>
+            <option value="pombal">Centro de Pombal (Centro e Norte)</option>
+            <option value="outro">Outro ponto do país (Recolha ao domicílio)</option>
+          </select>
+          <Icon name="tabler:chevron-down" class="w-4 h-4 text-zinc-400 absolute right-3 top-3.5 pointer-events-none" aria-hidden="true" />
+        </div>
+        <p class="text-xs text-rose-600 mt-1.5 hidden" id="error-location"></p>
+      </div>
+    </div>
+
+    <!-- Mensagem -->
+    <div>
+      <label for="form-message" class="block text-xs font-medium text-zinc-700 uppercase tracking-wider mb-2">
+        A sua Mensagem ou Situação <span class="text-rose-500">*</span>
+      </label>
+      <textarea
+        id="form-message"
+        name="message"
+        rows="4"
+        required
+        placeholder="Indique informações relevantes (espécie/porte do animal, clínica ou morada se aplicável, etc.)..."
+        class="w-full px-4 py-3 rounded-lg border border-zinc-300 focus:border-pet-teal-500 focus:ring-2 focus:ring-pet-teal-200 text-sm text-zinc-800 transition-colors"
+      ></textarea>
+      <p class="text-xs text-rose-600 mt-1.5 hidden" id="error-message"></p>
+    </div>
+
+    <!-- Botão de Submissão -->
+    <div>
+      <button
+        type="submit"
+        id="form-submit-btn"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-pet-teal-600 text-white font-sans text-xs uppercase tracking-wider font-semibold rounded-lg hover:bg-pet-teal-700 focus:outline-none focus:ring-2 focus:ring-pet-teal-600 focus:ring-offset-2 transition-all shadow-sm"
+      >
+        <Icon name="tabler:mail" class="w-4 h-4" aria-hidden="true" />
+        <span>Enviar Mensagem</span>
+      </button>
+    </div>
+  </form>
+
+  <!-- Mensagem de Sucesso Solene -->
+  <div 
+    id="form-success-banner" 
+    class="hidden mt-6 p-6 bg-pet-teal-50 border border-pet-teal-200 rounded-xl text-center space-y-3"
+  >
+    <div class="inline-flex p-3 bg-pet-teal-500 text-white rounded-full">
+      <Icon name="tabler:check" class="w-6 h-6" aria-hidden="true" />
+    </div>
+    <h3 class="font-serif text-2xl text-zinc-900 font-semibold">
+      Mensagem Recebida com Sucesso
+    </h3>
+    <p class="text-zinc-600 font-sans text-sm max-w-md mx-auto leading-relaxed">
+      Agradecemos o seu contacto. A nossa equipa de acolhimento entrará em contacto consigo o mais brevemente possível com a máxima dedicação e respeito.
+    </p>
+  </div>
+</div>
+
+<script>
+  function setupForm(): void {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const banner = document.getElementById('form-success-banner');
+    if (!form || !banner) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Clear previous error messages
+      const errorEls = form.querySelectorAll<HTMLParagraphElement>('[id^="error-"]');
+      errorEls.forEach((el) => {
+        el.textContent = '';
+        el.classList.add('hidden');
+      });
+
+      const formData = new FormData(form);
+      const honeypot = String(formData.get('honeypot') || '');
+      if (honeypot.trim() !== '') {
+        // Silently reject bots
+        return;
+      }
+
+      const name = String(formData.get('name') || '').trim();
+      const phone = String(formData.get('phone') || '').replace(/\s+/g, '');
+      const email = String(formData.get('email') || '').trim();
+      const service = String(formData.get('service') || '').trim();
+      const location = String(formData.get('location') || '').trim();
+      const message = String(formData.get('message') || '').trim();
+
+      let hasErrors = false;
+
+      const showError = (fieldId: string, msg: string) => {
+        const errorEl = document.getElementById(`error-${fieldId}`);
+        if (errorEl) {
+          errorEl.textContent = msg;
+          errorEl.classList.remove('hidden');
+        }
+        hasErrors = true;
+      };
+
+      if (name.length < 2) {
+        showError('name', 'Por favor, indique o seu nome completo (mínimo 2 caracteres).');
+      }
+
+      const phoneRegex = /^(\+351)?[29]\d{8}$/;
+      if (!phoneRegex.test(phone)) {
+        showError('phone', 'Por favor, indique um contacto telefónico nacional válido (9 dígitos).');
+      }
+
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError('email', 'Por favor, indique um endereço de e-mail válido.');
+      }
+
+      if (!service) {
+        showError('service', 'Por favor, selecione um serviço.');
+      }
+
+      if (!location) {
+        showError('location', 'Por favor, selecione o centro de preferência.');
+      }
+
+      if (message.length < 5) {
+        showError('message', 'Por favor, escreva uma breve mensagem (mínimo 5 caracteres).');
+      }
+
+      if (hasErrors) return;
+
+      // Show success banner and hide form
+      form.classList.add('hidden');
+      banner.classList.remove('hidden');
+      banner.focus();
+    });
+  }
+
+  setupForm();
+  document.addEventListener('astro:page-load', setupForm);
+</script>

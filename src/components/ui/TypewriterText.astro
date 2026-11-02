@@ -1,0 +1,214 @@
+---
+interface Props {
+  texts: string[];
+  enhance?: boolean;
+  typeSpeed?: number;
+  eraseSpeed?: number;
+  pauseAfter?: number;
+  pauseEmpty?: number;
+  showCursor?: boolean;
+  cursor?: string;
+  mainClassName?: string;
+  loop?: boolean;
+  erase?: boolean;
+}
+
+const {
+  texts,
+  enhance = true,
+  typeSpeed = 65,
+  eraseSpeed = 35,
+  pauseAfter = 2200,
+  pauseEmpty = 400,
+  showCursor = true,
+  cursor = "|",
+  mainClassName = "",
+  loop = true,
+  erase = true,
+} = Astro.props;
+
+const staticFallback = texts[0] ?? "";
+---
+
+<style>
+  [data-typewriter] {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.05em;
+  }
+
+  .typewriter-static {
+    display: inline;
+  }
+
+  .typewriter-dynamic {
+    display: none;
+  }
+
+  [data-typewriter][data-ready="true"] .typewriter-static {
+    display: none;
+  }
+
+  [data-typewriter][data-ready="true"] .typewriter-dynamic {
+    display: inline;
+  }
+
+  .typewriter-cursor {
+    display: inline-block;
+    margin-left: 0.05em;
+    opacity: 1;
+    color: inherit;
+    font-weight: inherit;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .typewriter-cursor {
+      animation: typewriter-cursor-blink 0.8s step-end infinite;
+    }
+
+    @keyframes typewriter-cursor-blink {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .typewriter-cursor {
+      animation: none !important;
+      opacity: 1;
+    }
+  }
+</style>
+
+<span
+  class:list={["typewriter-root inline-block", mainClassName]}
+  data-typewriter
+  data-enhance={enhance ? "true" : "false"}
+  data-texts={JSON.stringify(texts)}
+  data-type-speed={typeSpeed}
+  data-erase-speed={eraseSpeed}
+  data-pause-after={pauseAfter}
+  data-pause-empty={pauseEmpty}
+  data-loop={loop ? "true" : "false"}
+  data-erase={erase ? "true" : "false"}
+  aria-label={staticFallback}
+  aria-live="polite"
+  aria-atomic="true"
+>
+  <span class="typewriter-static" aria-hidden="true">{staticFallback}</span>
+  <span class="typewriter-dynamic" data-typewriter-display aria-hidden="true"></span>
+  {showCursor && (
+    <span class="typewriter-cursor text-pet-teal-400" aria-hidden="true">{cursor}</span>
+  )}
+</span>
+
+{enhance && (
+  <script is:inline>
+    (function () {
+      function initTypewriters() {
+        if (typeof window === "undefined") return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          return;
+        }
+
+        var elements = document.querySelectorAll('[data-typewriter][data-enhance="true"]:not([data-ready="true"])');
+        elements.forEach(function (root) {
+          var textsRaw = root.dataset.texts ?? "[]";
+          var texts = [];
+          try {
+            texts = JSON.parse(textsRaw);
+          } catch (e) {
+            return;
+          }
+          if (!texts || texts.length === 0) return;
+
+          var typeSpeed = Number(root.dataset.typeSpeed ?? "65");
+          var eraseSpeed = Number(root.dataset.eraseSpeed ?? "35");
+          var pauseAfter = Number(root.dataset.pauseAfter ?? "2200");
+          var pauseEmpty = Number(root.dataset.pauseEmpty ?? "400");
+          var loop = root.dataset.loop !== "false";
+          var erase = root.dataset.erase !== "false";
+
+          var displayEl = root.querySelector("[data-typewriter-display]");
+          if (!displayEl) return;
+
+          root.dataset.ready = "true";
+
+          var textIndex = 0;
+          var charIndex = 0;
+          var phase = "typing";
+          var timerId = null;
+          var accumulatedText = "";
+
+          var schedule = function (delay) {
+            timerId = window.setTimeout(tick, delay);
+          };
+
+          var tick = function () {
+            if (!document.contains(root)) {
+              if (timerId) window.clearTimeout(timerId);
+              return;
+            }
+
+            var current = texts[textIndex] ?? "";
+
+            if (phase === "typing") {
+              if (charIndex < current.length) {
+                charIndex += 1;
+                if (erase) {
+                  displayEl.textContent = current.slice(0, charIndex);
+                } else {
+                  accumulatedText = accumulatedText + current[charIndex - 1];
+                  displayEl.textContent = accumulatedText;
+                }
+                schedule(typeSpeed);
+              } else {
+                phase = "pauseAfter";
+                schedule(pauseAfter);
+              }
+            } else if (phase === "pauseAfter") {
+              if (erase) {
+                phase = "erasing";
+                schedule(eraseSpeed);
+              } else {
+                phase = "pauseEmpty";
+                schedule(pauseEmpty);
+              }
+            } else if (phase === "erasing") {
+              if (charIndex > 0) {
+                charIndex -= 1;
+                displayEl.textContent = current.slice(0, charIndex);
+                schedule(eraseSpeed);
+              } else {
+                phase = "pauseEmpty";
+                schedule(pauseEmpty);
+              }
+            } else if (phase === "pauseEmpty") {
+              if (!loop && textIndex === texts.length - 1) {
+                return;
+              }
+              textIndex = (textIndex + 1) % texts.length;
+              charIndex = 0;
+              if (!erase) {
+                accumulatedText += " ";
+              }
+              phase = "typing";
+              schedule(typeSpeed);
+            }
+          };
+
+          displayEl.textContent = "";
+          schedule(typeSpeed);
+        });
+      }
+
+      initTypewriters();
+      document.addEventListener("astro:page-load", initTypewriters);
+    })();
+  </script>
+)}

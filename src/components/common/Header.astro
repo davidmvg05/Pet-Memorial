@@ -1,0 +1,159 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const pathname = Astro.url.pathname;
+
+const navLinks = [
+  { href: '#', label: 'Início', active: true },
+  { href: '#', label: 'Serviços', active: false },
+  { href: '#', label: 'Memorial', active: false },
+  { href: '#', label: 'Sobre Nós', active: false },
+  { href: '#', label: 'Perguntas Frequentes', active: false },
+  { href: '#', label: 'Contactos', active: false },
+];
+---
+
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-zinc-200/80 transition-all shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20 sm:h-24">
+      <!-- Logótipo Oficial à Esquerda -->
+      <a 
+        href="#"
+        onclick="event.preventDefault();"
+        class="flex items-center focus:outline-none focus:ring-2 focus:ring-pet-teal-500 rounded py-1 transition-opacity hover:opacity-90"
+        aria-label="Pet Memorial - Início"
+      >
+        <img 
+          src={`${import.meta.env.BASE_URL}assets/logo/logo_petmemorial.png`} 
+          alt="Pet Memorial - Centro de Cremação & Assistência Funerária Animal" 
+          width="240" 
+          height="75" 
+          class="h-12 sm:h-14 md:h-16 w-auto object-contain" 
+          loading="eager" 
+          fetchpriority="high"
+          decoding="async"
+        />
+      </a>
+
+      <!-- Menu Desktop à Direita -->
+      <nav class="hidden lg:flex items-center space-x-1 sm:space-x-2" aria-label="Navegação Principal">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            onclick="event.preventDefault();"
+            class={`px-3.5 py-2 text-sm font-sans font-medium transition-all duration-200 rounded-md relative cursor-pointer ${
+              link.active 
+                ? 'text-pet-teal-600 font-semibold' 
+                : 'text-zinc-600 hover:text-pet-teal-600 hover:bg-pet-teal-50/50'
+            }`}
+            aria-current={link.active ? 'page' : undefined}
+          >
+            {link.label}
+            {link.active && (
+              <span class="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-pet-teal-500 rounded-full" />
+            )}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Botão Hambúrguer Mobile -->
+      <div class="flex lg:hidden">
+        <button
+          type="button"
+          id="mobile-menu-button"
+          class="p-2 text-zinc-700 hover:text-pet-teal-600 hover:bg-zinc-100 rounded-md focus:outline-none focus:ring-2 focus:ring-pet-teal-500"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Abrir menu de navegação"
+        >
+          <Icon name="tabler:menu-2" id="icon-menu-open" class="w-6 h-6 block" aria-hidden="true" />
+          <Icon name="tabler:x" id="icon-menu-close" class="w-6 h-6 hidden" aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Mobile Desdobrável -->
+  <div 
+    id="mobile-menu" 
+    class="hidden lg:hidden border-t border-zinc-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-lg"
+  >
+    <nav class="space-y-1" aria-label="Navegação Móvel">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          onclick="event.preventDefault();"
+          class={`block px-3 py-2.5 rounded-md text-base font-sans font-medium transition-colors ${
+            link.active
+              ? 'bg-pet-teal-50 text-pet-teal-700 font-semibold'
+              : 'text-zinc-700 hover:bg-zinc-50 hover:text-pet-teal-600'
+          }`}
+          aria-current={link.active ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+    <div class="pt-4 border-t border-zinc-100 flex flex-col gap-2">
+      <a
+        href="#"
+        onclick="event.preventDefault();"
+        class="w-full inline-flex items-center justify-center gap-2 py-3 px-4 bg-pet-teal-500 text-white text-sm font-semibold rounded-md shadow-sm"
+      >
+        <Icon name="tabler:phone" class="w-4 h-4" aria-hidden="true" />
+        <span>Ligar Sintra (24h)</span>
+      </a>
+      <a
+        href="#"
+        onclick="event.preventDefault();"
+        class="w-full inline-flex items-center justify-center gap-2 py-3 px-4 bg-zinc-800 text-white text-sm font-semibold rounded-md shadow-sm"
+      >
+        <Icon name="tabler:phone" class="w-4 h-4" aria-hidden="true" />
+        <span>Ligar Pombal (24h)</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  function setupMobileMenu(): void {
+    const button = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-menu-open');
+    const iconClose = document.getElementById('icon-menu-close');
+
+    if (!button || !menu || !iconOpen || !iconClose) return;
+
+    // Remove existing event listener if any (for clean re-binds)
+    const newButton = button.cloneNode(true) as HTMLElement;
+    button.parentNode?.replaceChild(newButton, button);
+
+    let isExpanded = false;
+
+    newButton.addEventListener('click', () => {
+      isExpanded = !isExpanded;
+      newButton.setAttribute('aria-expanded', String(isExpanded));
+      
+      const openIcon = newButton.querySelector('#icon-menu-open');
+      const closeIcon = newButton.querySelector('#icon-menu-close');
+
+      if (isExpanded) {
+        menu.classList.remove('hidden');
+        openIcon?.classList.add('hidden');
+        openIcon?.classList.remove('block');
+        closeIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('block');
+      } else {
+        menu.classList.add('hidden');
+        openIcon?.classList.remove('hidden');
+        openIcon?.classList.add('block');
+        closeIcon?.classList.add('hidden');
+        closeIcon?.classList.remove('block');
+      }
+    });
+  }
+
+  // Support for standard load and View Transitions
+  setupMobileMenu();
+  document.addEventListener('astro:page-load', setupMobileMenu);
+</script>

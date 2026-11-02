@@ -1,0 +1,42 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<aside 
+  aria-label="Linhas de Emergência e Apoio 24 Horas"
+  class="sticky top-0 z-50 bg-pet-teal-600 text-white shadow-md border-b border-pet-teal-700/50"
+>
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 flex flex-col sm:flex-row items-center justify-between gap-1.5 sm:gap-4 text-xs sm:text-sm">
+    <div class="flex items-center gap-2 text-pet-teal-100 font-sans tracking-wide">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+      </span>
+      <span class="font-medium">Apoio Urgente & Recolhas 24 Horas em Todo o País</span>
+    </div>
+
+    <div class="flex items-center gap-3 sm:gap-6 font-sans">
+      <a 
+        href="tel:+351914347109" 
+        class="inline-flex items-center gap-1.5 text-white hover:text-pet-teal-100 transition-colors py-0.5 px-2 rounded focus:outline-none focus:ring-2 focus:ring-white"
+        aria-label="Ligar para Centro de Sintra: 914 347 109"
+      >
+        <Icon name="tabler:phone" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-300" aria-hidden="true" />
+        <span class="font-light text-pet-teal-100">Sintra:</span>
+        <strong class="font-semibold tracking-wider">914 347 109</strong>
+      </a>
+
+      <span class="text-pet-teal-400 select-none" aria-hidden="true">|</span>
+
+      <a 
+        href="tel:+351910754666" 
+        class="inline-flex items-center gap-1.5 text-white hover:text-pet-teal-100 transition-colors py-0.5 px-2 rounded focus:outline-none focus:ring-2 focus:ring-white"
+        aria-label="Ligar para Centro de Pombal: 910 754 666"
+      >
+        <Icon name="tabler:phone" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-300" aria-hidden="true" />
+        <span class="font-light text-pet-teal-100">Pombal:</span>
+        <strong class="font-semibold tracking-wider">910 754 666</strong>
+      </a>
+    </div>
+  </div>
+</aside>

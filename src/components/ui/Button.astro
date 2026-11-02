@@ -1,0 +1,115 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export type ButtonVariant = 'on-light' | 'on-dark' | 'on-light-outline' | 'on-dark-outline';
+export type ButtonSize = 'sm' | 'md' | 'lg';
+
+export interface Props extends HTMLAttributes<'button'> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  href?: string;
+  target?: string;
+  rel?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  fullWidth?: boolean;
+  class?: string;
+}
+
+const {
+  variant = 'on-light',
+  size = 'md',
+  href,
+  target,
+  rel: rawRel,
+  type = 'button',
+  disabled = false,
+  fullWidth = false,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+// Defesa de segurança para links externos
+const rel = target === '_blank' && !rawRel ? 'noopener noreferrer' : rawRel;
+
+// Base styles: Botão curvo, transição de cores suave para a troca de cor no hover
+const baseStyles = [
+  'inline-flex items-center justify-center font-sans font-medium text-center',
+  'rounded-full cursor-pointer select-none',
+  'transition-colors duration-300 ease-in-out',
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+  'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
+  fullWidth ? 'w-full' : 'w-auto',
+];
+
+// Três tamanhos definidos
+const sizeStyles: Record<ButtonSize, string> = {
+  sm: 'text-xs px-4 py-2 gap-1.5 tracking-wide',
+  md: 'text-sm px-6 py-2.5 gap-2 tracking-wide',
+  lg: 'text-base px-8 py-3.5 gap-2.5 tracking-wider',
+};
+
+// Duas versões principais com troca de cor no hover (e variantes de contorno complementares)
+// on-light: para fundo branco / claro (Normal: Teal sólido -> Hover: Troca para Branco com texto e contorno Teal)
+// on-dark: para cima de imagens ou fundo preto (Normal: Branco sólido -> Hover: Troca para Teal ou Preto com texto Branco)
+const variantStyles: Record<ButtonVariant, string> = {
+  'on-light': [
+    'bg-pet-teal-500 text-white border-2 border-pet-teal-500 shadow-sm',
+    'hover:bg-white hover:text-pet-teal-500 hover:border-pet-teal-500',
+    'focus-visible:ring-pet-teal-500 focus-visible:ring-offset-white',
+    'active:bg-pet-teal-50 active:text-pet-teal-600',
+  ].join(' '),
+  'on-dark': [
+    'bg-white text-pet-dark border-2 border-white shadow-md',
+    'hover:bg-pet-teal-500 hover:text-white hover:border-pet-teal-500',
+    'focus-visible:ring-white focus-visible:ring-offset-pet-dark',
+    'active:bg-pet-teal-600 active:border-pet-teal-600 active:text-white',
+  ].join(' '),
+  'on-light-outline': [
+    'bg-transparent text-pet-teal-500 border-2 border-pet-teal-500',
+    'hover:bg-pet-teal-500 hover:text-white hover:border-pet-teal-500',
+    'focus-visible:ring-pet-teal-500 focus-visible:ring-offset-white',
+  ].join(' '),
+  'on-dark-outline': [
+    'bg-transparent text-white border-2 border-white backdrop-blur-xs',
+    'hover:bg-white hover:text-pet-dark hover:border-white',
+    'focus-visible:ring-white focus-visible:ring-offset-pet-dark',
+  ].join(' '),
+};
+
+const combinedClasses = [
+  ...baseStyles,
+  sizeStyles[size],
+  variantStyles[variant],
+  className,
+].join(' ');
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      class={combinedClasses}
+      aria-disabled={disabled ? 'true' : undefined}
+      tabindex={disabled ? -1 : undefined}
+      {...rest}
+    >
+      <slot name="icon-left" />
+      <span><slot /></span>
+      <slot name="icon-right" />
+    </a>
+  ) : (
+    <button
+      type={type}
+      disabled={disabled}
+      class={combinedClasses}
+      {...rest}
+    >
+      <slot name="icon-left" />
+      <span><slot /></span>
+      <slot name="icon-right" />
+    </button>
+  )
+}
